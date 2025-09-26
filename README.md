@@ -19,7 +19,7 @@ Para executar a aplicação usando a **imagem Docker** publicada no Docker Hub, 
 2. **Baixe a imagem publicada** no Docker Hub (substitua `seu-usuario` pelo seu nome de usuário do Docker Hub e `meu-repo` pelo nome do repositório):
 
    ```bash
-   docker pull seu-usuario/meu-repo:1.0.0
+   docker pull samuelschaeffer/cp-1:1.0.0
    ```
 
 3. **Execute a aplicação**:
@@ -27,7 +27,7 @@ Para executar a aplicação usando a **imagem Docker** publicada no Docker Hub, 
    Após o download da imagem, execute a aplicação com o seguinte comando:
 
    ```bash
-   docker run -p 8080:8080 seu-usuario/meu-repo:1.0.0
+   docker run -p 8080:8080 samuelschaeffer/cp-1:1.0.0
    ```
 
    Isso fará com que a aplicação esteja disponível na porta `8080` do seu sistema local.
@@ -55,13 +55,13 @@ Se preferir usar o **docker-compose** para orquestrar os containers (API Spring 
 2. **Clone o repositório** (se ainda não tiver feito):
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repo.git
+   git clone https://github.com/samuelaguiarr/checkpoint1-micro.git
    ```
 
 3. **Acesse a pasta do projeto**:
 
    ```bash
-   cd seu-repo
+   cd checkpoint1-micro
    ```
 
 4. **Execute o comando `docker-compose up --build`** para construir e iniciar os containers:
@@ -138,10 +138,6 @@ Se preferir usar o **docker-compose** para orquestrar os containers (API Spring 
 * **Portas em uso**: Se a porta `8080` já estiver sendo usada por outro processo, você pode mudar a porta da API no `docker-compose.yml` ou ao rodar o comando `docker run` com a opção `-p` para mapear outra porta.
 
 ---
-
-Esse **README.md** agora contém todas as instruções necessárias para a execução da aplicação tanto pela imagem do Docker Hub quanto usando o **docker-compose**, além de fornecer acesso ao **Swagger** para testes e visualização dos endpoints da API.
-
-Agora é só copiar esse conteúdo para o seu arquivo **README.md** no repositório, e **fazer o commit e push**:
 
 ```bash
 git add README.md
