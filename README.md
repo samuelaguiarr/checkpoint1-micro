@@ -55,13 +55,13 @@ Se preferir usar o **docker-compose** para orquestrar os containers (API Spring 
 2. **Clone o repositório** (se ainda não tiver feito):
 
    ```bash
-   git clone https://github.com/samuelaguiarr/checkpoint1-micro.git
+   git clone https://github.com/samuelaguiarr/cp-1.git
    ```
 
 3. **Acesse a pasta do projeto**:
 
    ```bash
-   cd checkpoint1-micro
+   cd cp-1
    ```
 
 4. **Execute o comando `docker-compose up --build`** para construir e iniciar os containers:
