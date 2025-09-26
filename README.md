@@ -136,11 +136,3 @@ Se preferir usar o **docker-compose** para orquestrar os containers (API Spring 
 
 * **Problema de conexão com o banco de dados**: Certifique-se de que as variáveis de ambiente no `docker-compose.yml` estão corretas, especialmente a URL do banco de dados, o nome de usuário e a senha.
 * **Portas em uso**: Se a porta `8080` já estiver sendo usada por outro processo, você pode mudar a porta da API no `docker-compose.yml` ou ao rodar o comando `docker run` com a opção `-p` para mapear outra porta.
-
----
-
-```bash
-git add README.md
-git commit -m "Adiciona documentação de execução"
-git push origin main
-```
