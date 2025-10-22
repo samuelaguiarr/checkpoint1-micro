@@ -20,7 +20,7 @@ import br.com.fiap.rm_550212.dto.AmbienteResponse;
 import br.com.fiap.rm_550212.service.AmbienteService;
 
 @RestController
-@RequestMapping("ambientes")
+@RequestMapping("/api/ambientes")
 public class AmbienteController {
     @Autowired
     private AmbienteService ambienteService;

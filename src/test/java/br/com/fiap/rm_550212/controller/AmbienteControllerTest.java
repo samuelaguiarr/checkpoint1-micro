@@ -13,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,83 +40,82 @@ class AmbienteControllerTest {
     @Test
     void testCreateAmbiente() throws Exception {
         AmbienteRequestCreate request = new AmbienteRequestCreate();
-        request.setNome("Sala de Reunião");
-        request.setCapacidade(10);
-        request.setTipo("Reunião");
+        request.setLocalizacao("Sala de Reunião");
+        request.setTemperaturaAtual(new BigDecimal("25.5"));
+        request.setEstaChovendo(false);
 
         Ambiente ambiente = new Ambiente();
         ambiente.setId(1L);
-        ambiente.setNome("Sala de Reunião");
-        ambiente.setCapacidade(10);
-        ambiente.setTipo("Reunião");
+        ambiente.setLocalizacao("Sala de Reunião");
+        ambiente.setTemperaturaAtual(new BigDecimal("25.5"));
+        ambiente.setEstaChovendo(false);
 
         AmbienteResponse response = new AmbienteResponse();
         response.setId(1L);
-        response.setNome("Sala de Reunião");
-        response.setCapacidade(10);
-        response.setTipo("Reunião");
+        response.setLocalizacao("Sala de Reunião");
+        response.setTemperaturaAtual(new BigDecimal("25.5"));
+        response.setEstaChovendo(false);
 
-        when(ambienteService.create(any(AmbienteRequestCreate.class))).thenReturn(response);
+        when(ambienteService.criarAmbiente(any(AmbienteRequestCreate.class))).thenReturn(ambiente);
 
         mockMvc.perform(post("/api/ambientes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nome").value("Sala de Reunião"))
-                .andExpect(jsonPath("$.capacidade").value(10))
-                .andExpect(jsonPath("$.tipo").value("Reunião"));
+                .andExpect(jsonPath("$.localizacao").value("Sala de Reunião"))
+                .andExpect(jsonPath("$.temperaturaAtual").value(25.5))
+                .andExpect(jsonPath("$.estaChovendo").value(false));
     }
 
     @Test
     void testGetAllAmbientes() throws Exception {
-        AmbienteResponse ambiente1 = new AmbienteResponse();
+        Ambiente ambiente1 = new Ambiente();
         ambiente1.setId(1L);
-        ambiente1.setNome("Sala 1");
-        ambiente1.setCapacidade(10);
-        ambiente1.setTipo("Reunião");
+        ambiente1.setLocalizacao("Sala 1");
+        ambiente1.setTemperaturaAtual(new BigDecimal("20.0"));
+        ambiente1.setEstaChovendo(false);
 
-        AmbienteResponse ambiente2 = new AmbienteResponse();
+        Ambiente ambiente2 = new Ambiente();
         ambiente2.setId(2L);
-        ambiente2.setNome("Sala 2");
-        ambiente2.setCapacidade(20);
-        ambiente2.setTipo("Auditório");
+        ambiente2.setLocalizacao("Sala 2");
+        ambiente2.setTemperaturaAtual(new BigDecimal("22.0"));
+        ambiente2.setEstaChovendo(true);
 
-        List<AmbienteResponse> ambientes = Arrays.asList(ambiente1, ambiente2);
-
-        when(ambienteService.getAll()).thenReturn(ambientes);
+        List<Ambiente> ambientes = Arrays.asList(ambiente1, ambiente2);
+        when(ambienteService.buscarTodos()).thenReturn(ambientes);
 
         mockMvc.perform(get("/api/ambientes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].nome").value("Sala 1"))
+                .andExpect(jsonPath("$[0].localizacao").value("Sala 1"))
                 .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].nome").value("Sala 2"));
+                .andExpect(jsonPath("$[1].localizacao").value("Sala 2"));
     }
 
     @Test
     void testGetAmbienteById() throws Exception {
-        AmbienteResponse ambiente = new AmbienteResponse();
+        Ambiente ambiente = new Ambiente();
         ambiente.setId(1L);
-        ambiente.setNome("Sala de Reunião");
-        ambiente.setCapacidade(10);
-        ambiente.setTipo("Reunião");
+        ambiente.setLocalizacao("Sala de Reunião");
+        ambiente.setTemperaturaAtual(new BigDecimal("25.5"));
+        ambiente.setEstaChovendo(false);
 
-        when(ambienteService.getById(1L)).thenReturn(Optional.of(ambiente));
+        when(ambienteService.buscarPorId(1L)).thenReturn(Optional.of(ambiente));
 
         mockMvc.perform(get("/api/ambientes/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nome").value("Sala de Reunião"))
-                .andExpect(jsonPath("$.capacidade").value(10))
-                .andExpect(jsonPath("$.tipo").value("Reunião"));
+                .andExpect(jsonPath("$.localizacao").value("Sala de Reunião"))
+                .andExpect(jsonPath("$.temperaturaAtual").value(25.5))
+                .andExpect(jsonPath("$.estaChovendo").value(false));
     }
 
     @Test
     void testGetAmbienteByIdNotFound() throws Exception {
-        when(ambienteService.getById(999L)).thenReturn(Optional.empty());
+        when(ambienteService.buscarPorId(999L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/ambientes/999"))
                 .andExpect(status().isNotFound());
@@ -123,34 +124,32 @@ class AmbienteControllerTest {
     @Test
     void testUpdateAmbiente() throws Exception {
         AmbienteRequestUpdate request = new AmbienteRequestUpdate();
-        request.setNome("Sala Atualizada");
-        request.setCapacidade(15);
-        request.setTipo("Auditório");
+        request.setTemperaturaAtual(new BigDecimal("30.0"));
+        request.setEstaChovendo(true);
 
-        AmbienteResponse response = new AmbienteResponse();
-        response.setId(1L);
-        response.setNome("Sala Atualizada");
-        response.setCapacidade(15);
-        response.setTipo("Auditório");
+        Ambiente ambienteAtualizado = new Ambiente();
+        ambienteAtualizado.setId(1L);
+        ambienteAtualizado.setLocalizacao("Sala Atualizada");
+        ambienteAtualizado.setTemperaturaAtual(new BigDecimal("30.0"));
+        ambienteAtualizado.setEstaChovendo(true);
 
-        when(ambienteService.update(anyLong(), any(AmbienteRequestUpdate.class))).thenReturn(Optional.of(response));
+        when(ambienteService.atualizarAmbiente(anyLong(), any(AmbienteRequestUpdate.class))).thenReturn(Optional.of(ambienteAtualizado));
 
         mockMvc.perform(put("/api/ambientes/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.nome").value("Sala Atualizada"))
-                .andExpect(jsonPath("$.capacidade").value(15))
-                .andExpect(jsonPath("$.tipo").value("Auditório"));
+                .andExpect(jsonPath("$.temperaturaAtual").value(30.0))
+                .andExpect(jsonPath("$.estaChovendo").value(true));
     }
 
     @Test
     void testUpdateAmbienteNotFound() throws Exception {
         AmbienteRequestUpdate request = new AmbienteRequestUpdate();
-        request.setNome("Sala Atualizada");
+        request.setTemperaturaAtual(new BigDecimal("30.0"));
 
-        when(ambienteService.update(anyLong(), any(AmbienteRequestUpdate.class))).thenReturn(Optional.empty());
+        when(ambienteService.atualizarAmbiente(anyLong(), any(AmbienteRequestUpdate.class))).thenReturn(Optional.empty());
 
         mockMvc.perform(put("/api/ambientes/999")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -160,15 +159,15 @@ class AmbienteControllerTest {
 
     @Test
     void testDeleteAmbiente() throws Exception {
-        when(ambienteService.delete(1L)).thenReturn(true);
+        when(ambienteService.deletarAmbiente(1L)).thenReturn(true);
 
         mockMvc.perform(delete("/api/ambientes/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
     @Test
     void testDeleteAmbienteNotFound() throws Exception {
-        when(ambienteService.delete(999L)).thenReturn(false);
+        when(ambienteService.deletarAmbiente(999L)).thenReturn(false);
 
         mockMvc.perform(delete("/api/ambientes/999"))
                 .andExpect(status().isNotFound());

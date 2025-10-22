@@ -2,7 +2,6 @@ package br.com.fiap.rm_550212.service;
 
 import br.com.fiap.rm_550212.dto.AmbienteRequestCreate;
 import br.com.fiap.rm_550212.dto.AmbienteRequestUpdate;
-import br.com.fiap.rm_550212.dto.AmbienteResponse;
 import br.com.fiap.rm_550212.model.Ambiente;
 import br.com.fiap.rm_550212.repository.AmbienteRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -38,112 +39,111 @@ class AmbienteServiceTest {
     void setUp() {
         ambiente = new Ambiente();
         ambiente.setId(1L);
-        ambiente.setNome("Sala de Reunião");
-        ambiente.setCapacidade(10);
-        ambiente.setTipo("Reunião");
+        ambiente.setLocalizacao("Sala de Reunião");
+        ambiente.setTemperaturaAtual(new BigDecimal("25.5"));
+        ambiente.setEstaChovendo(false);
 
         requestCreate = new AmbienteRequestCreate();
-        requestCreate.setNome("Sala de Reunião");
-        requestCreate.setCapacidade(10);
-        requestCreate.setTipo("Reunião");
+        requestCreate.setLocalizacao("Sala de Reunião");
+        requestCreate.setTemperaturaAtual(new BigDecimal("25.5"));
+        requestCreate.setEstaChovendo(false);
 
         requestUpdate = new AmbienteRequestUpdate();
-        requestUpdate.setNome("Sala Atualizada");
-        requestUpdate.setCapacidade(15);
-        requestUpdate.setTipo("Auditório");
+        requestUpdate.setTemperaturaAtual(new BigDecimal("30.0"));
+        requestUpdate.setEstaChovendo(true);
     }
 
     @Test
-    void testCreate() {
+    void testCriarAmbiente() {
         when(ambienteRepository.save(any(Ambiente.class))).thenReturn(ambiente);
 
-        AmbienteResponse response = ambienteService.create(requestCreate);
+        Ambiente result = ambienteService.criarAmbiente(requestCreate);
 
-        assertNotNull(response);
-        assertEquals(1L, response.getId());
-        assertEquals("Sala de Reunião", response.getNome());
-        assertEquals(10, response.getCapacidade());
-        assertEquals("Reunião", response.getTipo());
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Sala de Reunião", result.getLocalizacao());
+        assertEquals(new BigDecimal("25.5"), result.getTemperaturaAtual());
+        assertEquals(false, result.isEstaChovendo());
 
         verify(ambienteRepository, times(1)).save(any(Ambiente.class));
     }
 
     @Test
-    void testGetAll() {
+    void testBuscarTodos() {
         Ambiente ambiente2 = new Ambiente();
         ambiente2.setId(2L);
-        ambiente2.setNome("Auditório");
-        ambiente2.setCapacidade(50);
-        ambiente2.setTipo("Auditório");
+        ambiente2.setLocalizacao("Auditório");
+        ambiente2.setTemperaturaAtual(new BigDecimal("22.0"));
+        ambiente2.setEstaChovendo(true);
 
         List<Ambiente> ambientes = Arrays.asList(ambiente, ambiente2);
         when(ambienteRepository.findAll()).thenReturn(ambientes);
 
-        List<AmbienteResponse> responses = ambienteService.getAll();
+        List<Ambiente> responses = ambienteService.buscarTodos();
 
         assertNotNull(responses);
         assertEquals(2, responses.size());
         assertEquals(1L, responses.get(0).getId());
-        assertEquals("Sala de Reunião", responses.get(0).getNome());
+        assertEquals("Sala de Reunião", responses.get(0).getLocalizacao());
         assertEquals(2L, responses.get(1).getId());
-        assertEquals("Auditório", responses.get(1).getNome());
+        assertEquals("Auditório", responses.get(1).getLocalizacao());
 
         verify(ambienteRepository, times(1)).findAll();
     }
 
     @Test
-    void testGetById() {
+    void testBuscarPorId() {
         when(ambienteRepository.findById(1L)).thenReturn(Optional.of(ambiente));
 
-        Optional<AmbienteResponse> response = ambienteService.getById(1L);
+        Optional<Ambiente> response = ambienteService.buscarPorId(1L);
 
         assertTrue(response.isPresent());
         assertEquals(1L, response.get().getId());
-        assertEquals("Sala de Reunião", response.get().getNome());
-        assertEquals(10, response.get().getCapacidade());
-        assertEquals("Reunião", response.get().getTipo());
+        assertEquals("Sala de Reunião", response.get().getLocalizacao());
+        assertEquals(new BigDecimal("25.5"), response.get().getTemperaturaAtual());
+        assertEquals(false, response.get().isEstaChovendo());
 
         verify(ambienteRepository, times(1)).findById(1L);
     }
 
     @Test
-    void testGetByIdNotFound() {
+    void testBuscarPorIdNotFound() {
         when(ambienteRepository.findById(999L)).thenReturn(Optional.empty());
 
-        Optional<AmbienteResponse> response = ambienteService.getById(999L);
+        Optional<Ambiente> response = ambienteService.buscarPorId(999L);
 
         assertFalse(response.isPresent());
         verify(ambienteRepository, times(1)).findById(999L);
     }
 
     @Test
-    void testUpdate() {
+    void testAtualizarAmbiente() {
         Ambiente ambienteAtualizado = new Ambiente();
         ambienteAtualizado.setId(1L);
-        ambienteAtualizado.setNome("Sala Atualizada");
-        ambienteAtualizado.setCapacidade(15);
-        ambienteAtualizado.setTipo("Auditório");
+        ambienteAtualizado.setLocalizacao("Sala Atualizada");
+        ambienteAtualizado.setTemperaturaAtual(new BigDecimal("30.0"));
+        ambienteAtualizado.setEstaChovendo(true);
 
         when(ambienteRepository.findById(1L)).thenReturn(Optional.of(ambiente));
         when(ambienteRepository.save(any(Ambiente.class))).thenReturn(ambienteAtualizado);
 
-        Optional<AmbienteResponse> response = ambienteService.update(1L, requestUpdate);
+        Optional<Ambiente> response = ambienteService.atualizarAmbiente(1L, requestUpdate);
 
         assertTrue(response.isPresent());
         assertEquals(1L, response.get().getId());
-        assertEquals("Sala Atualizada", response.get().getNome());
-        assertEquals(15, response.get().getCapacidade());
-        assertEquals("Auditório", response.get().getTipo());
+        assertEquals("Sala Atualizada", response.get().getLocalizacao());
+        assertEquals(new BigDecimal("30.0"), response.get().getTemperaturaAtual());
+        assertEquals(true, response.get().isEstaChovendo());
 
         verify(ambienteRepository, times(1)).findById(1L);
         verify(ambienteRepository, times(1)).save(any(Ambiente.class));
     }
 
     @Test
-    void testUpdateNotFound() {
+    void testAtualizarAmbienteNotFound() {
         when(ambienteRepository.findById(999L)).thenReturn(Optional.empty());
 
-        Optional<AmbienteResponse> response = ambienteService.update(999L, requestUpdate);
+        Optional<Ambiente> response = ambienteService.atualizarAmbiente(999L, requestUpdate);
 
         assertFalse(response.isPresent());
         verify(ambienteRepository, times(1)).findById(999L);
@@ -151,10 +151,10 @@ class AmbienteServiceTest {
     }
 
     @Test
-    void testDelete() {
+    void testDeletarAmbiente() {
         when(ambienteRepository.existsById(1L)).thenReturn(true);
 
-        boolean result = ambienteService.delete(1L);
+        boolean result = ambienteService.deletarAmbiente(1L);
 
         assertTrue(result);
         verify(ambienteRepository, times(1)).existsById(1L);
@@ -162,10 +162,10 @@ class AmbienteServiceTest {
     }
 
     @Test
-    void testDeleteNotFound() {
+    void testDeletarAmbienteNotFound() {
         when(ambienteRepository.existsById(999L)).thenReturn(false);
 
-        boolean result = ambienteService.delete(999L);
+        boolean result = ambienteService.deletarAmbiente(999L);
 
         assertFalse(result);
         verify(ambienteRepository, times(1)).existsById(999L);
