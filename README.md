@@ -1,138 +1,125 @@
-# Documentação de Execução - Checkpoint1 Spring Boot
+# Global Solution API
 
-Este repositório contém a aplicação **Checkpoint1** desenvolvida em **Spring Boot** com banco de dados **MySQL**. As instruções abaixo detalham como executar a aplicação, tanto utilizando a imagem publicada no **Docker Hub** quanto utilizando **docker-compose** para orquestrar os containers.
+API REST para gerenciamento de ambientes desenvolvida com Spring Boot.
 
-## 🚀 Execução da Aplicação
+## Funcionalidades
 
-### 1. **Execução a partir da imagem publicada no Docker Hub**
+- ✅ CRUD completo de ambientes
+- ✅ Documentação Swagger/OpenAPI
+- ✅ Integração com MySQL
+- ✅ Containerização com Docker
+- ✅ Testes unitários e de integração
+- ✅ CI/CD com GitHub Actions
 
-Para executar a aplicação usando a **imagem Docker** publicada no Docker Hub, siga os passos abaixo:
+## Tecnologias
 
-#### Passos:
+- Java 17
+- Spring Boot 3.5.0
+- Spring Data JPA
+- MySQL 8.4
+- Docker
+- Maven
+- Swagger/OpenAPI
 
-1. **Faça login no Docker Hub** com o comando:
+## Como executar
 
-   ```bash
-   docker login
-   ```
+### Pré-requisitos
 
-2. **Baixe a imagem publicada** no Docker Hub (substitua `seu-usuario` pelo seu nome de usuário do Docker Hub e `meu-repo` pelo nome do repositório):
+- Java 17+
+- Maven 3.6+
+- Docker e Docker Compose
 
-   ```bash
-   docker pull samuelschaeffer/cp-1:1.0.0
-   ```
+### Executando com Docker Compose
 
-3. **Execute a aplicação**:
+1. Clone o repositório:
+```bash
+git clone <url-do-repositorio>
+cd cp-1
+```
 
-   Após o download da imagem, execute a aplicação com o seguinte comando:
+2. Execute o projeto:
+```bash
+docker-compose up -d
+```
 
-   ```bash
-   docker run -p 8080:8080 samuelschaeffer/cp-1:1.0.0
-   ```
+3. Acesse a aplicação:
+- API: http://localhost:8080
+- Swagger UI: http://localhost:8080
 
-   Isso fará com que a aplicação esteja disponível na porta `8080` do seu sistema local.
+### Executando localmente
 
-4. **Acesso ao Swagger**:
+1. Configure o MySQL:
+```sql
+CREATE DATABASE api;
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root_pwd';
+GRANT ALL PRIVILEGES ON api.* TO 'root'@'localhost';
+```
 
-   Após a execução do container, você pode acessar a interface **Swagger** da aplicação no seguinte endereço:
+2. Execute a aplicação:
+```bash
+mvn spring-boot:run
+```
 
-   ```bash
-   http://localhost:8080/swagger-ui.html
-   ```
+## Testes
 
-   O Swagger permite visualizar e testar todos os endpoints da sua API.
+Execute os testes unitários:
+```bash
+mvn test
+```
 
----
+Execute os testes de integração:
+```bash
+mvn verify
+```
 
-### 2. **Execução a partir do `docker-compose`**
+## API Endpoints
 
-Se preferir usar o **docker-compose** para orquestrar os containers (API Spring Boot + Banco de Dados MySQL), siga os passos abaixo.
+### Ambientes
 
-#### Passos:
+- `GET /api/ambientes` - Lista todos os ambientes
+- `GET /api/ambientes/{id}` - Busca ambiente por ID
+- `POST /api/ambientes` - Cria novo ambiente
+- `PUT /api/ambientes/{id}` - Atualiza ambiente
+- `DELETE /api/ambientes/{id}` - Remove ambiente
 
-1. **Certifique-se de que o Docker e o Docker Compose estão instalados**. Se não tiver o Docker Compose, instale-o conforme a [documentação oficial](https://docs.docker.com/compose/install/).
+### Documentação
 
-2. **Clone o repositório** (se ainda não tiver feito):
+Acesse a documentação interativa em: http://localhost:8080
 
-   ```bash
-   git clone https://github.com/samuelaguiarr/cp-1.git
-   ```
+## CI/CD
 
-3. **Acesse a pasta do projeto**:
+O projeto possui workflows automatizados:
 
-   ```bash
-   cd cp-1
-   ```
+- **CI**: Executa testes e build em push para develop/feature/hotfix
+- **CD**: Faz deploy da imagem Docker em pull requests para main
+- **Release**: Gera releases automáticas em push de tags para main
 
-4. **Execute o comando `docker-compose up --build`** para construir e iniciar os containers:
+## Estrutura do Projeto
 
-   ```bash
-   docker-compose up --build
-   ```
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── br/com/fiap/rm_550212/
+│   │       ├── controller/
+│   │       ├── dto/
+│   │       ├── model/
+│   │       ├── repository/
+│   │       └── service/
+│   └── resources/
+│       └── application.properties
+└── test/
+    └── java/
+        └── br/com/fiap/rm_550212/
+            ├── controller/
+            ├── service/
+            └── integration/
+```
 
-   Este comando irá:
+## Contribuição
 
-   * Construir as imagens necessárias.
-   * Iniciar dois containers:
-
-     * **db**: O banco de dados MySQL.
-     * **api**: A aplicação Spring Boot.
-
-   **Nota**: O comando `--build` é necessário para garantir que a imagem da API seja construída antes de ser executada.
-
-5. **Acesso à aplicação**:
-
-   A aplicação estará disponível na porta `8080` do seu sistema local. Acesse a aplicação e os endpoints da API através do **Swagger**:
-
-   ```bash
-   http://localhost:8080/swagger-ui.html
-   ```
-
-   O Swagger fornecerá uma interface para visualizar todos os endpoints da sua aplicação e realizar testes diretamente na interface.
-
----
-
-## 📝 **Informações Adicionais**
-
-* **Banco de Dados**: A aplicação está configurada para usar o banco de dados **MySQL**. O banco será automaticamente criado com o nome `appdb`.
-
-* **Credenciais do Banco de Dados**:
-
-  * **Usuário**: `app`
-  * **Senha**: `app`
-  * **Banco**: `appdb`
-
-* **Portas**:
-
-  * **API**: A aplicação estará acessível na porta **8080**.
-  * **MySQL**: O MySQL estará acessível na porta **3306** (internamente dentro do container).
-
----
-
-### 📋 **Comandos Docker úteis**
-
-* **Para parar os containers e removê-los**:
-
-  ```bash
-  docker-compose down
-  ```
-
-* **Para limpar as imagens não utilizadas**:
-
-  ```bash
-  docker system prune -a
-  ```
-
----
-
-### 📅 **Versionamento**
-
-* **Versão da API**: 1.0.0
-* **Versão do Docker**: Certifique-se de que está utilizando a versão mais recente do Docker para evitar problemas.
-
----
-
-### 🔧 **Problemas Comuns**
-
-* **Problema de conexão com o banco de dados**: Certifique-se de que as variáveis de ambiente no `docker-compose.yml` estão corretas, especialmente a URL do banco de dados, o nome de usuário e a senha.
-* **Portas em uso**: Se a porta `8080` já estiver sendo usada por outro processo, você pode mudar a porta da API no `docker-compose.yml` ou ao rodar o comando `docker run` com a opção `-p` para mapear outra porta.
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request

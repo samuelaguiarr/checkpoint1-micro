@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven
+target/
+.m2/
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# GitHub Actions
+.github/
+
+# Test files
+src/test/
