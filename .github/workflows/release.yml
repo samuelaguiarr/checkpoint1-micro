@@ -36,17 +36,16 @@ jobs:
       
     - name: Generate documentation
       run: |
-        echo "# Global Solution API" > RELEASE_NOTES.md
+        echo "# Global Solution API - Release ${{ github.ref_name }}" > RELEASE_NOTES.md
         echo "" >> RELEASE_NOTES.md
-        echo "## Versão ${{ github.ref_name }}" >> RELEASE_NOTES.md
-        echo "" >> RELEASE_NOTES.md
-        echo "### Funcionalidades:" >> RELEASE_NOTES.md
+        echo "## Funcionalidades:" >> RELEASE_NOTES.md
         echo "- API REST para gerenciamento de ambientes" >> RELEASE_NOTES.md
         echo "- Documentação Swagger/OpenAPI" >> RELEASE_NOTES.md
         echo "- Integração com MySQL" >> RELEASE_NOTES.md
         echo "- Containerização com Docker" >> RELEASE_NOTES.md
+        echo "- Testes unitários automatizados" >> RELEASE_NOTES.md
         echo "" >> RELEASE_NOTES.md
-        echo "### Como executar:" >> RELEASE_NOTES.md
+        echo "## Como executar:" >> RELEASE_NOTES.md
         echo "1. Clone o repositório" >> RELEASE_NOTES.md
         echo "2. Execute: docker-compose up -d" >> RELEASE_NOTES.md
         echo "3. Acesse: http://localhost:8080" >> RELEASE_NOTES.md
@@ -62,7 +61,6 @@ jobs:
         body_path: RELEASE_NOTES.md
         draft: false
         prerelease: false
-        fail_on_unmatched: false
         
     - name: Upload JAR artifact
       uses: actions/upload-release-asset@v1
