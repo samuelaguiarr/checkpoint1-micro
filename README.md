@@ -1,143 +1,105 @@
-# Global Solution API
+# Sistema de Monitoramento Ambiental - Checkpoint 2
 
-API REST para gerenciamento de ambientes desenvolvida com Spring Boot.
+**SOA - Microservices and Web Engineering**  
+**3º semestre/2025 - Prof. Antonio Carlos de Lima Júnior**
 
-## Funcionalidades
+## 👥 Grupo
 
-- ✅ CRUD completo de ambientes
-- ✅ Documentação Swagger/OpenAPI
-- ✅ Integração com MySQL
-- ✅ Containerização com Docker
-- ✅ Testes unitários e de integração
-- ✅ CI/CD com GitHub Actions
+- **Rafael Bueno Villela** - rm550275
+- **Samuel Schaeffer Aguiar** - rm550212
 
-## Tecnologias
+## 📋 Descrição
+
+Sistema de monitoramento ambiental desenvolvido para o Checkpoint 2, implementando CI/CD com GitHub Actions e Docker Hub.
+
+## 🚀 Tecnologias
 
 - Java 17
 - Spring Boot 3.5.0
 - Spring Data JPA
-- MySQL 8.4
-- Docker
+- H2 Database
 - Maven
-- Swagger/OpenAPI
+- Docker
+- GitHub Actions
 
-## Como executar
+## 🛠️ Como Executar
 
 ### Pré-requisitos
-
 - Java 17+
 - Maven 3.6+
-- Docker e Docker Compose
+- Docker
 
-### Executando com Docker Compose
-
-1. Clone o repositório:
+### Executando Localmente
 ```bash
+# Clone o repositório
 git clone https://github.com/samuelaguiarr/cp-1
 cd cp-1
-```
 
-2. Execute o projeto:
-```bash
-docker-compose up -d
-```
-
-3. Acesse a aplicação:
-- API: http://localhost:8080
-- Swagger UI: http://localhost:8080
-
-### Executando localmente
-
-1. Configure o MySQL:
-```sql
-CREATE DATABASE api;
-CREATE USER 'root'@'localhost' IDENTIFIED BY 'root_pwd';
-GRANT ALL PRIVILEGES ON api.* TO 'root'@'localhost';
-```
-
-2. Execute a aplicação:
-```bash
+# Execute com Maven
 mvn spring-boot:run
 ```
 
-## Testes
-
-Execute os testes unitários:
+### Executando com Docker
 ```bash
-mvn test
+# Build da imagem
+docker build -t cp-1 .
+
+# Executar container
+docker run -p 8080:8080 cp-1
 ```
 
-Execute os testes de integração:
+## 🐳 Docker Hub
+
+Imagem disponível em: https://hub.docker.com/r/samuelschaeffer/cp-1
+
+## 📊 API Endpoints
+
+- **GET** `/api/ambientes` - Lista todos os ambientes
+- **GET** `/api/ambientes/{id}` - Busca ambiente por ID
+- **POST** `/api/ambientes` - Cria novo ambiente
+- **PUT** `/api/ambientes/{id}` - Atualiza ambiente
+- **DELETE** `/api/ambientes/{id}` - Remove ambiente
+
+## 🔧 CI/CD Implementation
+
+### 1. Continuous Integration (1 ponto)
+- ✅ Execução de testes unitários
+- ✅ Empacotamento da aplicação Java com Maven
+- ✅ Trigger: push nas branches develop, feature, hotfix
+
+### 2. Continuous Delivery (1 ponto)
+- ✅ Upload da imagem Docker no Docker Hub
+- ✅ Trigger: pull request na branch main
+
+### 3. Release Generation (1 ponto)
+- ✅ Geração de documentação da versão
+- ✅ Geração de Release e Tag da versão
+- ✅ Trigger: push de tags na branch main
+
+## 📚 Documentação
+
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **API Docs**: http://localhost:8080/v3/api-docs
+
+## 🧪 Testes
+
 ```bash
+# Executar testes
+mvn test
+
+# Executar testes de integração
 mvn verify
 ```
 
-## API Endpoints
+## 📄 Entrega
 
-### Ambientes
+**Arquivo de entrega:** `ENTREGA_CHECKPOINT2.txt`
 
-- `GET /api/ambientes` - Lista todos os ambientes
-- `GET /api/ambientes/{id}` - Busca ambiente por ID
-- `POST /api/ambientes` - Cria novo ambiente
-- `PUT /api/ambientes/{id}` - Atualiza ambiente
-- `DELETE /api/ambientes/{id}` - Remove ambiente
+**Repositórios:**
+- **GitHub**: https://github.com/samuelaguiarr/cp-1
+- **Docker Hub**: https://hub.docker.com/r/samuelschaeffer/cp-1
 
-### Documentação
+---
 
-Acesse a documentação interativa em: http://localhost:8080
-
-## CI/CD
-
-O projeto possui workflows automatizados implementados com GitHub Actions:
-
-### 🔄 Continuous Integration (CI)
-- **Trigger**: Push nas branches `develop`, `feature`, `hotfix`
-- **Tarefas**:
-  - Execução de testes unitários
-  - Execução de testes de integração
-  - Empacotamento da aplicação Java com Maven
-  - Upload de artifacts (JAR e relatórios de teste)
-
-### 🚀 Continuous Delivery (CD)
-- **Trigger**: Pull Request para branch `main`
-- **Tarefas**:
-  - Build da imagem Docker
-  - Upload da imagem para Docker Hub
-  - Suporte a múltiplas arquiteturas (amd64, arm64)
-
-### 📦 Release
-- **Trigger**: Push de tags para branch `main`
-- **Tarefas**:
-  - Geração de documentação da versão
-  - Criação de Release e Tag no GitHub
-  - Upload do JAR como artifact da release
-
-## Estrutura do Projeto
-
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── br/com/fiap/rm_550212/
-│   │       ├── controller/
-│   │       ├── dto/
-│   │       ├── model/
-│   │       ├── repository/
-│   │       └── service/
-│   └── resources/
-│       └── application.properties
-└── test/
-    └── java/
-        └── br/com/fiap/rm_550212/
-            ├── controller/
-            ├── service/
-            └── integration/
-```
-
-## Contribuição
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+**Checkpoint 2 - SOA - Microservices and Web Engineering**  
+**3º semestre/2025 - Prof. Antonio Carlos de Lima Júnior**
