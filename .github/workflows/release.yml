@@ -38,17 +38,32 @@ jobs:
       run: |
         echo "# Global Solution API - Release ${{ github.ref_name }}" > RELEASE_NOTES.md
         echo "" >> RELEASE_NOTES.md
-        echo "## Funcionalidades:" >> RELEASE_NOTES.md
-        echo "- API REST para gerenciamento de ambientes" >> RELEASE_NOTES.md
-        echo "- Documentação Swagger/OpenAPI" >> RELEASE_NOTES.md
-        echo "- Integração com MySQL" >> RELEASE_NOTES.md
-        echo "- Containerização com Docker" >> RELEASE_NOTES.md
-        echo "- Testes unitários automatizados" >> RELEASE_NOTES.md
+        echo "## 📋 Funcionalidades:" >> RELEASE_NOTES.md
+        echo "- ✅ API REST para gerenciamento de ambientes" >> RELEASE_NOTES.md
+        echo "- ✅ Documentação Swagger/OpenAPI" >> RELEASE_NOTES.md
+        echo "- ✅ Integração com MySQL" >> RELEASE_NOTES.md
+        echo "- ✅ Containerização com Docker" >> RELEASE_NOTES.md
+        echo "- ✅ Testes unitários automatizados" >> RELEASE_NOTES.md
+        echo "- ✅ CI/CD com GitHub Actions" >> RELEASE_NOTES.md
         echo "" >> RELEASE_NOTES.md
-        echo "## Como executar:" >> RELEASE_NOTES.md
+        echo "## 🚀 Como executar:" >> RELEASE_NOTES.md
         echo "1. Clone o repositório" >> RELEASE_NOTES.md
-        echo "2. Execute: docker-compose up -d" >> RELEASE_NOTES.md
+        echo "2. Execute: \`docker-compose up -d\`" >> RELEASE_NOTES.md
         echo "3. Acesse: http://localhost:8080" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## 🐳 Docker Hub:" >> RELEASE_NOTES.md
+        echo "Imagem disponível em: \`${{ secrets.DOCKER_USERNAME }}/cp-1:${{ github.ref_name }}\`" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## 📊 Testes:" >> RELEASE_NOTES.md
+        echo "- Testes unitários: \`mvn test\`" >> RELEASE_NOTES.md
+        echo "- Testes de integração: \`mvn verify\`" >> RELEASE_NOTES.md
+        echo "" >> RELEASE_NOTES.md
+        echo "## 🔧 Tecnologias:" >> RELEASE_NOTES.md
+        echo "- Java 17" >> RELEASE_NOTES.md
+        echo "- Spring Boot 3.5.0" >> RELEASE_NOTES.md
+        echo "- MySQL 8.4" >> RELEASE_NOTES.md
+        echo "- Docker" >> RELEASE_NOTES.md
+        echo "- Maven" >> RELEASE_NOTES.md
         
     - name: Create Release
       id: create_release

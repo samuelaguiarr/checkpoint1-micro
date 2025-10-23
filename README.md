@@ -33,7 +33,7 @@ API REST para gerenciamento de ambientes desenvolvida com Spring Boot.
 
 1. Clone o repositório:
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/samuelaguiarr/cp-1
 cd cp-1
 ```
 
@@ -88,11 +88,29 @@ Acesse a documentação interativa em: http://localhost:8080
 
 ## CI/CD
 
-O projeto possui workflows automatizados:
+O projeto possui workflows automatizados implementados com GitHub Actions:
 
-- **CI**: Executa testes e build em push para develop/feature/hotfix
-- **CD**: Faz deploy da imagem Docker em pull requests para main
-- **Release**: Gera releases automáticas em push de tags para main
+### 🔄 Continuous Integration (CI)
+- **Trigger**: Push nas branches `develop`, `feature`, `hotfix`
+- **Tarefas**:
+  - Execução de testes unitários
+  - Execução de testes de integração
+  - Empacotamento da aplicação Java com Maven
+  - Upload de artifacts (JAR e relatórios de teste)
+
+### 🚀 Continuous Delivery (CD)
+- **Trigger**: Pull Request para branch `main`
+- **Tarefas**:
+  - Build da imagem Docker
+  - Upload da imagem para Docker Hub
+  - Suporte a múltiplas arquiteturas (amd64, arm64)
+
+### 📦 Release
+- **Trigger**: Push de tags para branch `main`
+- **Tarefas**:
+  - Geração de documentação da versão
+  - Criação de Release e Tag no GitHub
+  - Upload do JAR como artifact da release
 
 ## Estrutura do Projeto
 
