@@ -3,6 +3,8 @@ name: Continuous Delivery
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   build-and-push:
