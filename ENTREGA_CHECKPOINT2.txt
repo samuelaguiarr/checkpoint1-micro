@@ -27,7 +27,7 @@ IMPLEMENTAÇÕES REALIZADAS:
    - Build da imagem Docker
    - Upload da imagem no Docker Hub
    - Suporte a múltiplas arquiteturas (amd64, arm64)
-   - Trigger: pull request na branch main
+   - Trigger: pull request e push na branch main
 
 ✅ 3. Action de geração de Tag de Release (1 ponto)
    - Geração de documentação da versão
@@ -45,7 +45,9 @@ MELHORIAS IMPLEMENTADAS:
 - Upload de artifacts para melhor rastreabilidade
 
 OBSERVAÇÕES:
-- Os workflows estão configurados e prontos para uso
-- É necessário configurar os secrets DOCKER_USERNAME e DOCKER_PASSWORD no GitHub
-- O repositório no Docker Hub deve ter o mesmo nome do GitHub
-- Os workflows serão executados automaticamente conforme os triggers configurados
+- Os workflows estão configurados e funcionando perfeitamente
+- Secrets DOCKER_USERNAME e DOCKER_PASSWORD já configurados no GitHub
+- Repositório no Docker Hub: samuelschaeffer/cp-1
+- Workflows executando automaticamente conforme triggers configurados
+- Tags criadas: v1.3.0, v1.4.0, v1.5.0
+- Imagem Docker disponível em: https://hub.docker.com/r/samuelschaeffer/cp-1
