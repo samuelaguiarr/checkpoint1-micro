@@ -13,23 +13,16 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Runtime
-FROM eclipse-temurin:17-jre-alpine
-
-# Cria usuário não-root para segurança
-RUN addgroup -g 1001 -S appgroup && \
-    adduser -u 1001 -S appuser -G appgroup
+FROM eclipse-temurin:17-jre
 
 # Cria o diretório de aplicação
-RUN mkdir -p /opt/app && chown -R appuser:appgroup /opt/app
+RUN mkdir -p /opt/app
 
 # Copia o arquivo JAR
 COPY --from=build /opt/app/target/*.jar /opt/app/app.jar
 
 # Define o diretório de trabalho
 WORKDIR /opt/app
-
-# Muda para usuário não-root
-USER appuser
 
 # Expõe a porta da aplicação
 EXPOSE 8080
