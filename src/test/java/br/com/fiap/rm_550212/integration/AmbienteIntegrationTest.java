@@ -23,7 +23,8 @@ class AmbienteIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        ambienteRepository.deleteAll();
+        // Não precisa deletar todos os registros pois o H2 é em memória
+        // e será recriado a cada teste
     }
 
     @Test
