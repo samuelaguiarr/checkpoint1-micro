@@ -7,7 +7,7 @@ INFORMAÇÕES DE ENTREGA:
    https://github.com/samuelaguiarr/cp-1
 
 2. URL do repositório no Docker Hub:
-   https://hub.docker.com/r/samuelaguiarr/cp-1
+   https://hub.docker.com/r/samuelschaeffer/cp-1
 
 3. Membros do grupo:
    - Rafael Bueno Villela
