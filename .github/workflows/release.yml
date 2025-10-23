@@ -34,6 +34,9 @@ jobs:
     - name: Build application
       run: mvn clean package -DskipTests
       
+    - name: List target directory
+      run: ls -la target/
+      
     - name: Generate documentation
       run: |
         echo "# Global Solution API - Release ${{ github.ref_name }}" > RELEASE_NOTES.md
@@ -77,12 +80,23 @@ jobs:
         draft: false
         prerelease: false
         
+    - name: Check JAR exists
+      run: |
+        if [ -f "target/globalsolution-0.0.1-SNAPSHOT.jar" ]; then
+          echo "JAR file found"
+          ls -la target/globalsolution-0.0.1-SNAPSHOT.jar
+        else
+          echo "JAR file not found, listing target directory:"
+          ls -la target/
+          exit 1
+        fi
+        
     - name: Upload JAR artifact
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: target/*.jar
+        asset_path: target/globalsolution-0.0.1-SNAPSHOT.jar
         asset_name: globalsolution-${{ github.ref_name }}.jar
         asset_content_type: application/java-archive
