@@ -102,4 +102,4 @@ mvn verify
 ---
 
 **Checkpoint 2 - SOA - Microservices and Web Engineering**  
-**3º semestre/2025 - Prof. Antonio Carlos de Lima Júnior**
+**6º semestre/2025 - Prof. Antonio Carlos de Lima Júnior**
